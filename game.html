@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>game</title>
+    <style>
+        body{
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(#de445e,#ffe3);
+        }
+        #game{
+            font-size: 2.5rem;
+            border: none;
+            background: red;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #334;
+            border-bottom: 0;
+        }
+
+        .gameResult{
+
+            height: 50px;
+            width: 70%;
+            background-color: #daa22e;
+            border-radius: 10px;
+            color: #000;
+            border: 2px solid #334;
+            padding: 20px;
+            font-size: 2rem;
+            text-align: center;
+            border-top: 0;
+            /* margin-top: 10px; */
+        }
+        em{
+            box-shadow:  10px 5px 5px #f5f5f5;
+            padding: 5px 10px;
+        }
+        h1{
+            font-size: 2rem;
+            border-bottom: 2px solid #333;
+            /* margin-bottom: 50px; */
+            top: 0;
+            position: sticky;
+            background: #fff;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            letter-spacing: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1>ROCK,PAPER,SCISSORS <br> <em>GAME</em></h1>
+    <button id="game">Start Game</button>
+    <div class="gameResult">game is starting...</div>
+
+    <script>
+        const button = document.getElementById('game')
+        const ROCK = 'rock'
+        const PAPER = 'paper'
+        const scISSORS = 'scissors'
+        const Result_DRAW = 'draw'
+        const Result_PLAYER_WINS = 'player-wins'
+        const Result_COMPUTER_WINS = 'computer-wins'
+        const DEFAULTUSER = ROCK
+        const GAME_RESULT = document.querySelector('.gameResult')
+        // const RESET = document.querySelector('.reset')
+
+        // GAME_RESULT.textContent = winner
+
+        let GameIsRunning = false
+
+        function getPlayerSelection(){
+            const selection = prompt(`${ROCK}, ${PAPER} or ${scISSORS}`)
+            if(selection !== ROCK &&
+            selection !== ROCK &&
+            selection !== ROCK ){
+                alert(` invalid choice we chose ${DEFAULTUSER} for you`)
+                return DEFAULTUSER;
+            }else{
+                return selection;
+            }
+        }
+
+        function getComputerSelection(){
+            const randomValue = Math.random()
+            if(randomValue < 0.34){
+                return ROCK
+            }else if(randomValue <0.67){
+                return PAPER
+            }else{
+                return scISSORS;
+            }
+        }
+
+        function getWinner(cChoice,pChoice){
+            if(cChoice === pChoice){
+                return Result_DRAW
+            }else if(cChoice === ROCK && pChoice === PAPER  ||
+            cChoice === PAPER && pChoice === scISSORS  ||
+            cChoice === scISSORS && pChoice === ROCK ){
+                return Result_PLAYER_WINS
+            }else{
+                const back = document.querySelector('body')
+                const back2 = document.querySelector('.gameResult')
+                back.style.background = 'red'
+                back2.style.background = '#fff'
+                return Result_COMPUTER_WINS
+            }
+
+        }
+
+        function startGame(){
+            if(GameIsRunning){
+                return
+            }
+            GameIsRunning = true;
+            console.log('game is starting....')
+            const playerSelction = getPlayerSelection()
+            const computerSelection = getComputerSelection()
+            const winner = getWinner(computerSelection,playerSelction)
+
+            let message = `You Picked ${playerSelction}, computer picked ${computerSelection} therfore you `
+            winner === Result_DRAW ?message = message + 'had a DRAW' : winner === Result_PLAYER_WINS ? 
+            message = message + 'WON': message = message + 'LOST.'
+            
+        GAME_RESULT.textContent = message + " " + winner.toUpperCase()
+            
+        }
+        button.addEventListener('click',startGame)
+    </script>
+</body>
+</html>
